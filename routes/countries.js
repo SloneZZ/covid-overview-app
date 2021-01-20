@@ -77,4 +77,25 @@ router.get('/countryIsoCode2', (req, res, next) => {
     }
 })
 
+router.post('/createHistory', (req, res, next) => {
+    const country = req.body.country
+    const country_code = req.body.country_code
+    const date = req.body.date
+    const population = req.body.population
+    const cases = req.body.cases
+    const deaths = req.body.deaths
+    const hospital = req.body.hospital
+    const icu = req.body.icu
+
+
+    mongoClient.connect(url, (error, client) => {
+        const db = client.db('coroverview_db')
+        db.collection('country_history').insertOne({country, country_code, date, population, cases, deaths, hospital, icu} ,(err, result) => {
+            if (err) console.log(err)
+            console.log(result);
+            //res.send("Successful insertion")
+        })
+    })
+})
+
 module.exports = router;
