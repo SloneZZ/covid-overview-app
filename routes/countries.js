@@ -37,8 +37,8 @@ router.get('/countryViaDialcode', (req, res, next) => {
 
     let codeIsCorrect = false
 
-    for (var i = 0; i < codes.length; i++) {
-        for (var j = 0; j < codes[i].countryCodes.length; j++) {
+    for (let i = 0; i < codes.length; i++) {
+        for (let j = 0; j < codes[i].countryCodes.length; j++) {
             if (codes[i].countryCodes[j] === dialCodeTrimmed) {
                 codeIsCorrect = true
             }
@@ -51,6 +51,27 @@ router.get('/countryViaDialcode', (req, res, next) => {
                     res.send(result)
                 })
             })
+            break
+        }
+    }
+})
+
+router.get('/countryIsoCode2', (req, res, next) => {
+    const dialCode = req.query.dialcode
+    const dialCodeTrimmed = dialCode.substring(1, dialCode.length)
+
+    let codeCorrect = false;
+
+    const codes = country_codes_package.codes
+
+    for (let i = 0; i < codes.length; i++) {
+        for (let j = 0; j < codes[i].countryCodes.length; j++) {
+            if (codes[i].countryCodes[j] === dialCodeTrimmed) {
+                codeCorrect = true
+            }
+        }
+        if (codeCorrect) {
+            res.send(codes[i].isoCode2)
             break
         }
     }
